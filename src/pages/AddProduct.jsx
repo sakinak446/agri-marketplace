@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api";
 import Navbar from "../components/Navbar";
 import { useRef, useState } from "react";
 import axios from "axios";
@@ -35,7 +36,7 @@ function AddProduct() {
         const token = localStorage.getItem("token");
         try {
             const response = await axios.post(
-                "http://localhost:5000/api/products",
+                `${API_URL}/api/products`,
                 formData,
                 {
                 headers: {

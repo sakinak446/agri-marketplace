@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api";
 import { Link, Navigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
@@ -26,7 +27,7 @@ function Cart() {
         try {
         const results = await Promise.allSettled(
         cartItems.map((item) =>
-            axios.get(`http://localhost:5000/api/products/${item._id}`)
+            axios.get(`${API_URL}/api/products/${item._id}`)
         )
         );
 

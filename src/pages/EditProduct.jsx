@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api";
 import { useEffect , useState , useMemo , useRef  } from "react";
 import { Link , useParams } from "react-router-dom";
 import axios from "axios";
@@ -37,7 +38,7 @@ function EditProduct() {
         const fetchProduct = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/api/products/${id}`
+                    `${API_URL}/api/products/${id}`
                 );
 
                 const product = response.data.product;
@@ -121,7 +122,7 @@ function EditProduct() {
             }
 
             const response = await axios.put(
-                `http://localhost:5000/api/products/${id}`,
+                `${API_URL}/api/products/${id}`,
                 formData,
                 {
                     headers: {

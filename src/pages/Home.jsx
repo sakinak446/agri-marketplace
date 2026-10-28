@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import homeHero from "../assets/home-hero.png";
@@ -11,7 +12,7 @@ function Home(){
         const fetchProducts = async () => {
             try {
             const response = await axios.get(
-                "http://localhost:5000/api/products?limit=4"
+                `${API_URL}/api/products?limit=4`
             );
 
             console.log("Products response:", response.data);

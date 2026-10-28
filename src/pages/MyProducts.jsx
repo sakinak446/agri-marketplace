@@ -1,3 +1,4 @@
+import { API_URL } from "../config/api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +14,7 @@ function MyProducts() {
                 const token = localStorage.getItem("token");
 
                 const response = await axios.get(
-                    "http://localhost:5000/api/products/my-products",
+                    `${API_URL}/api/products/my-products`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -46,7 +47,7 @@ function MyProducts() {
             const token = localStorage.getItem("token");
 
             await axios.delete(
-                `http://localhost:5000/api/products/${productId}`,
+                `${API_URL}/api/products/${productId}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

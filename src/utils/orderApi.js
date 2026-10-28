@@ -1,6 +1,7 @@
+import { API_URL } from "../config/api";
 import axios from "axios";
 
-export const orderApi = axios.create({ baseURL: "http://localhost:5000/api" });
+export const orderApi = axios.create({ baseURL: `${API_URL}/api` });
 orderApi.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("token") || ""}`;
   return config;
