@@ -1,0 +1,194 @@
+import { useState } from 'react';
+import axios from 'axios';
+import { Link , useNavigate } from 'react-router-dom';
+import heroImage from "../assets/hero.png";
+function Register() {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("consumer");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError("");
+        setLoading(true);
+        try{
+            const response = await axios.post('http://localhost:5000/api/auth/register', 
+                { name, email, password, role });
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.user));
+            window.dispatchEvent(new Event("auth-changed"));
+            navigate("/"); // Redirect to home page after successful registration
+        } catch (error) {
+            setError(error.response?.data?.message || "Registration failed");
+        } finally {
+            setLoading(false);
+        }
+    }
+  return (
+    <div className="min-h-screen bg-green-50 flex items-center justify-center p-4">
+        <div className="w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-xl">
+            <div className="grid min-h-[650px] md:grid-cols-2">
+
+                {/* Left hero section */}
+                <div className="relative hidden md:block">
+                <img
+                    src={heroImage}
+                    alt="Fresh vegetables harvested from a farm"
+                    className="absolute inset-0 h-full w-full object-cover object-right"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-green-950/90 via-green-900/20 to-transparent" />
+
+                <div className="absolute bottom-0 left-0 p-10 text-white">
+                    <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em]">
+                    Join the Marketplace
+                    </p>
+
+                    <h2 className="text-4xl font-bold leading-tight">
+                    Grow together.
+                    <br />
+                    Shop fresher.
+                    </h2>
+
+                    <p className="mt-4 max-w-sm text-sm leading-6 text-green-50">
+                    Connect directly with farmers and discover fresh products from
+                    your community.
+                    </p>
+                </div>
+                </div>
+
+                {/* Right register section */}
+                <div className="flex items-center justify-center p-8 md:p-12">
+                <div className="w-full max-w-md">
+                    <div className="mb-7">
+                        <div className="mb-5 flex items-center gap-3">
+                            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-700 text-xl text-white">
+                            🌱
+                            </div>
+
+                            <span className="text-xl font-bold text-gray-900">
+                            Agri Marketplace
+                            </span>
+                        </div>
+
+                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                            Create your account
+                        </h1>
+
+                        <p className="mt-2 text-sm leading-6 text-gray-500">
+                            Join the marketplace and connect directly with your community.
+                        </p>
+                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <label htmlFor="name"
+                        className="mb-2 block text-sm font-medium text-gray-700">
+                            Full Name
+                        </label>
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="Enter your full name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full mb-2 rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100"
+                            required
+                        />
+                        <label htmlFor="email"
+                        className="mb-2 block text-sm font-medium text-gray-700">
+                            Email
+                        </label>
+                        <input
+                            id="email"
+                            type="email"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full mb-2 rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100"
+                            required
+                        />
+                        <label htmlFor="password"
+                        className="mb-2 block text-sm font-medium text-gray-700">
+                            Password
+                        </label>
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full mb-2 rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100"
+                            required
+                        />
+                        <div>
+                            <p className="mb-2 block text-sm font-medium text-gray-700">
+                                I want to join as
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-3">
+                                <button
+                                type="button"
+                                onClick={() => setRole("farmer")}
+                                className={`rounded-xl border p-3 text-left transition ${
+                                    role === "farmer"
+                                    ? "border-green-600 bg-green-50 ring-1 ring-green-600"
+                                    : "border-gray-300 hover:border-green-300"
+                                }`}
+                                >
+                                <span className="block font-semibold text-gray-900">
+                                    🌾 Farmer
+                                </span>
+                                <span className="mt-1 block text-xs text-gray-500">
+                                    Sell your produce
+                                </span>
+                                </button>
+
+                                <button
+                                type="button"
+                                onClick={() => setRole("consumer")}
+                                className={`rounded-xl border p-3 text-left transition ${
+                                    role === "consumer"
+                                    ? "border-green-600 bg-green-50 ring-1 ring-green-600"
+                                    : "border-gray-300 hover:border-green-300"
+                                }`}
+                                >
+                                <span className="block font-semibold text-gray-900">
+                                    🛒 Consumer
+                                </span>
+                                <span className="mt-1 block text-xs text-gray-500">
+                                    Buy fresh produce
+                                </span>
+                                </button>
+                            </div>
+                            </div>
+                        {error && (
+                            <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+                                {error}
+                            </p>
+                        )}
+                        <button type="submit" disabled={loading}
+                            className="mt-2 w-full rounded-xl bg-green-700 px-4 py-3 font-semibold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-60">
+                            {loading ? "Creating account..." : "Create Account"}
+                        </button>
+                        <p className="mt-6 text-center text-sm text-gray-500">
+                            Already have an account?{" "}
+                            <Link
+                                to="/login"
+                                className="font-semibold text-green-700 hover:text-green-800">
+                                Sign in
+                            </Link>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+  );
+}
+
+export default Register;
