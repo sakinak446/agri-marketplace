@@ -54,8 +54,6 @@ function Cart() {
                 `${deletedProductIds.length} product(s) removed because they are no longer available.`
         );
         }
-
-        console.log("Cart synchronized:", latestProducts);
         } catch (error) {
         console.error(
             "Failed to refresh cart products:",

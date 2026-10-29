@@ -103,6 +103,7 @@ function Login() {
                                         type="password"
                                         placeholder="Enter your password"
                                         value={password}
+                                        autoComplete="current-password"
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
                                         className="w-full mb-2 rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100"/>
